@@ -33,6 +33,7 @@ interface PlanState {
   active(): Scenario;
   setView(v: View): void;
   resetScenario(): void;
+  commitScenario(): void;
 
   addFeature(input: { name: string; division: Feature['division']; phases: Omit<Phase, 'id' | 'featureId'>[] }): void;
   removeFeature(featureId: string): void;
@@ -59,6 +60,19 @@ export const usePlan = create<PlanState>()(
       active: () => (get().activeView === 'baseline' ? get().baseline : get().scenario),
       setView: (v) => set({ activeView: v }),
       resetScenario: () => set({ scenario: freshScenario() }),
+
+      // Promote the what-if into the committed baseline. Proposed features become
+      // part of the baseline (clear the flag), and the sandbox is re-synced to the
+      // new baseline so What-if continues from the just-committed plan.
+      commitScenario: () =>
+        set((s) => {
+          const committed = structuredClone(s.scenario.features).map((f) => ({ ...f, proposed: false }));
+          return {
+            baseline: { ...s.baseline, features: committed },
+            scenario: { ...s.scenario, features: structuredClone(committed) },
+            activeView: 'baseline',
+          };
+        }),
 
       addFeature: ({ name, division, phases }) =>
         set((s) => {
@@ -93,8 +107,9 @@ export const usePlan = create<PlanState>()(
     }),
     {
       name: 'sdd-planner-scenario',
-      // Only persist the editable scenario + view; baseline/engineers come from seed.
-      partialize: (s) => ({ scenario: s.scenario, activeView: s.activeView }),
+      // Persist the editable scenario, the (now committable) baseline, and the view
+      // so a committed plan survives reloads. Engineers always come from seed.
+      partialize: (s) => ({ scenario: s.scenario, baseline: s.baseline, activeView: s.activeView }),
     },
   ),
 );
