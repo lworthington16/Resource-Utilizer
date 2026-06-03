@@ -2,6 +2,7 @@ import { useMemo, useState } from 'react';
 import type { Engineer, Scenario } from '../types';
 import { earliestAllFree, freeFrom } from '../lib/capacity';
 import { fmtShort, fromISO, todayISO } from '../lib/dates';
+import { Section } from './Section';
 
 type Capability = 'any' | 'draft' | 'deliver';
 
@@ -30,11 +31,8 @@ export function AvailabilityFinder({
   const neededByDate = neededBy ? fromISO(neededBy) : null;
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm">
-      <h2 className="mb-3 text-sm font-semibold text-slate-800">
-        Availability finder — “who can join next?”
-      </h2>
-
+    <Section title={'Availability finder — “who can join next?”'}>
+      <div className="p-4">
       <div className="mb-3 grid grid-cols-2 gap-2 text-sm">
         <label className="flex flex-col gap-1">
           <span className="text-xs text-slate-500">Capability</span>
@@ -115,6 +113,7 @@ export function AvailabilityFinder({
           );
         })}
       </ul>
-    </div>
+      </div>
+    </Section>
   );
 }

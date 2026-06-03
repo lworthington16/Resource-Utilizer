@@ -10,6 +10,7 @@ import {
   today,
 } from '../lib/dates';
 import { PHASE_META } from '../lib/phaseConfig';
+import { Section } from './Section';
 
 const DAY_W = 22; // px per calendar day
 const LABEL_W = 168;
@@ -54,16 +55,10 @@ export function TimelineBoard({
   const todayLeft = calendarDaysBetween(windowStart, today()) * DAY_W;
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="border-b border-slate-100 px-4 py-3">
-        <h2 className="text-sm font-semibold text-slate-800">
-          Timeline — phases per person over time
-        </h2>
-        <p className="text-xs text-slate-400">
-          Red outline = double-booked. Dashed line = today. Scroll horizontally for future weeks.
-        </p>
-      </div>
-
+    <Section
+      title="Timeline — phases per person over time"
+      subtitle="Red outline = double-booked. Dashed line = today. Scroll horizontally for future weeks."
+    >
       <div className="flex">
         {/* sticky engineer labels */}
         <div className="shrink-0 border-r border-slate-100" style={{ width: LABEL_W }}>
@@ -149,7 +144,7 @@ export function TimelineBoard({
       </div>
 
       <Legend />
-    </div>
+    </Section>
   );
 }
 

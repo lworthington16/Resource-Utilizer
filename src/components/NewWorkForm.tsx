@@ -13,6 +13,7 @@ import {
   toISO,
 } from '../lib/dates';
 import { PHASE_META, ROLE_COLOR } from '../lib/phaseConfig';
+import { Section } from './Section';
 
 interface Row {
   enabled: boolean;
@@ -136,12 +137,15 @@ export function NewWorkForm() {
   };
 
   return (
-    <div className="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-center gap-2 border-b border-slate-100 bg-gradient-to-r from-violet-600 to-violet-500 px-4 py-3 text-white">
-        <h2 className="text-sm font-semibold">Plan new work</h2>
+    <Section
+      title="Plan new work"
+      headerClassName="border-b border-slate-100 bg-gradient-to-r from-violet-600 to-violet-500 px-4 py-3 text-white"
+      titleClassName="text-sm font-semibold"
+      chevronClassName="text-white"
+      headerRight={
         <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px] font-medium">what-if</span>
-      </div>
-
+      }
+    >
       <div className="p-4">
         <div className="mb-4 grid grid-cols-2 gap-3 text-sm">
           <label className="col-span-2 flex flex-col gap-1">
@@ -247,7 +251,7 @@ export function NewWorkForm() {
           Add to what-if scenario
         </button>
       </div>
-    </div>
+    </Section>
   );
 }
 

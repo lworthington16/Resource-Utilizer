@@ -8,6 +8,7 @@ import {
 } from '../lib/capacity';
 import { fmtShort, toISO } from '../lib/dates';
 import { PHASE_META, ROLE_COLOR } from '../lib/phaseConfig';
+import { Section } from './Section';
 
 type SortKey = 'free' | 'name' | 'days';
 
@@ -53,11 +54,10 @@ export function RosterPanel({
   );
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white shadow-sm">
-      <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
-        <h2 className="text-sm font-semibold text-slate-800">Resource roster — who's on what</h2>
-        <span className="text-xs text-slate-400">sort by header</span>
-      </div>
+    <Section
+      title="Resource roster — who's on what"
+      headerRight={<span className="text-xs text-slate-400">sort by header</span>}
+    >
       <div className="max-h-[420px] overflow-auto tl-scroll">
         <table className="w-full border-collapse text-sm">
           <thead className="sticky top-0 bg-slate-50 text-xs uppercase tracking-wide">
@@ -115,6 +115,6 @@ export function RosterPanel({
           </tbody>
         </table>
       </div>
-    </div>
+    </Section>
   );
 }
